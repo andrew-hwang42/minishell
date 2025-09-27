@@ -1,0 +1,1 @@
+valgrind --leak-check=full --suppressions=ignore_leak_readline.supp ./minishell
