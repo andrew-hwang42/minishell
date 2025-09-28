@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:45:33 by ahwang            #+#    #+#             */
-/*   Updated: 2025/09/27 05:54:17 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/09/28 03:29:39 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 typedef struct s_redir
 {
-	int			flag_redir;
+	int			redir_type;
 	char		*file;
 }	t_redir;
 

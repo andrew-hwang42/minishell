@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:44:27 by ahwang            #+#    #+#             */
-/*   Updated: 2025/09/27 06:13:33 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/09/28 03:29:36 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@
 # define STDIN			0
 # define STDOUT			1
 # define STDERR			2
+
+# define NONE			1
+# define IN			2
+# define OUT			3
+# define HEREDOC		4
+# define APPEND			5
 
 # define CHILD			0
 # define PARENTS		1

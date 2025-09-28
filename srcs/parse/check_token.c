@@ -6,36 +6,11 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 04:16:09 by ahwang            #+#    #+#             */
-/*   Updated: 2025/09/27 06:17:37 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/09/27 16:00:16 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/minishell.h"
-
-int	check_token_quote(char *line)
-{
-	char	quote;
-	int		i;
-	int		pos;
-
-	i = 0;
-	pos = 0;
-	while (line[i] != '\0' && pos >= 0)
-	{
-		if (line[i] == '\'' || line[i] == '"')
-		{
-			quote = line[i];
-			i++;
-			pos = find_char_pos(line, quote, i);
-			i = (pos + 1);
-			continue ;
-		}
-		i++;
-	}
-	if (pos == -1)
-		return (token_err_msg(quote, 0), 0);
-	return (1);
-}
 
 int	check_token_pipe(char next)
 {
@@ -96,15 +71,13 @@ int	check_token_else(char curr, char next)
 int	check_token(char *line)
 {
 	int	i;
-	char	quote;
 
 	i = 0;
 	while (line[i] != '\0')
 	{
 		if (line[i] == '\'' || line[i] == '"')
 		{
-			quote = line[i];
-			i = find_char_pos(line, quote, i + 1) + 1;
+			i = find_char_pos(line, line[i], i + 1) + 1;
 			continue ;
 		}
 		if ((line[i] == '|' && !check_token_pipe(line[i + 1]))

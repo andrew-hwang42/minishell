@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 01:19:54 by ahwang            #+#    #+#             */
-/*   Updated: 2025/09/27 06:02:57 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/09/27 15:42:53 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,15 @@ int	find_char_pos(char *str, char c, int start)
 		i++;
 	}
 	return (-1);
+}
+
+char	*remove_str_from_line(char *line, int str_start_pos, int str_len)
+{
+	int	i;
+
+	i = str_start_pos + str_len - 1;
+	while (line[++i] != '\0')
+		line[i - str_len] = line[i];
+	line[i - str_len] = '\0';
+	return (line);
 }

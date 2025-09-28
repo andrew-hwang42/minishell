@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 01:18:33 by ahwang            #+#    #+#             */
-/*   Updated: 2025/09/27 06:19:06 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/09/27 20:35:35 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	set_env(char ***env)
 	{
 		if (i > 0)
 			new_env = ft_realloc(new_env, sizeof(char *) * (i + 1),
-				sizeof(char *) * (i + 2));
+					sizeof(char *) * (i + 2));
 		new_env[i] = ft_strdup((*env)[i]);
 		if (!new_env[i])
 		{

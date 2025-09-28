@@ -6,7 +6,7 @@
 #    By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/24 15:50:04 by yhwang            #+#    #+#              #
-#    Updated: 2025/09/27 06:25:20 by ahwang           ###   ########.fr        #
+#    Updated: 2025/09/28 03:28:11 by ahwang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,13 @@ FILES =	main \
 		$(PARSE)parse \
 		$(PARSE)check_parse_err \
 		$(PARSE)check_token \
-		$(PARSE)check_pos \
+		$(PARSE)check_token_pos \
+		$(PARSE)apply_env_var \
+		$(PARSE)remove_dollar_quote \
+		$(PARSE)replace_env_key_to_val \
+		$(PARSE)save_data \
+		$(PARSE)save_option \
+		$(PARSE)save_redir \
 		$(PARSE)parse_utils \
 
 INCS_DIR = ./incs

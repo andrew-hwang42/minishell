@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 03:16:17 by ahwang            #+#    #+#             */
-/*   Updated: 2025/09/27 06:27:57 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/09/28 03:42:26 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,26 @@
 
 t_cmd	**parse(t_cmd **cmd, char **env, char *line)
 {
-	// char	*new_line;
-	// char	**split_pipe;
-	// int		i;
+	char	*new_line;
+	char	**split_cmd;
+	int		i;
 
 	if (!check_parse_err(line, cmd))
-		return (NULL);
-(void)env;
-	// new_line = make_new_line(env, rdline);
-	// split_pipe = ft_split(new_line, '|');
-	// free(new_line);
-	// i = -1;
-	// while (split_pipe[++i])
-	// {
-	// 	cmd = alloc_cmd(cmd, i);
-	// 	if (!cmd)
-	// 		return (free_2d_arr(split_pipe), NULL);
-	// 	cmd = fill_cmd_struct(cmd, split_pipe[i], i);
-	// 	if (!cmd)
-	// 		return (free_2d_arr(split_pipe), NULL);
-	// }
-	// free_2d_arr(split_pipe);
-	// free(line);
+		return (free(line), NULL);
+	new_line = apply_env_var(env, line);
+	new_line = make_space_near_redir(new_line);
+	if (!new_line)
+		return (free(line), NULL);
+	split_cmd = ft_split(new_line, '|');
+	free(new_line);
+	i = -1;
+	while (split_cmd[++i])
+	{
+		cmd = save_data(cmd, split_cmd[i], i);
+		if (!cmd)
+			return (free_2d_arr(split_cmd), NULL);
+	}
+	free(line);
+	free_2d_arr(split_cmd);
 	return (cmd);
 }
