@@ -1,1 +1,55 @@
 valgrind --leak-check=full --suppressions=ignore_leak_readline.supp ./minishell
+
+------------------
+
+command:
+echo $HOME
+echo '$HOME'
+echo "$HOME"
+echo "'$HOME'"
+echo '"$HOME"'
+echo "$'HOME'"
+echo '$"HOME"'
+echo $"HOME"
+echo $'HOME'
+
+output:
+/home/andrew
+$HOME
+/home/andrew
+'/home/andrew'
+"$HOME"
+$'HOME'
+$"HOME"
+HOME
+HOME
+
+------------------
+
+command:
+echo $
+echo $"cmd" 
+echo $'cmd'
+
+output:
+$
+cmd
+cmd
+
+------------------
+
+command:
+echo '$?'
+echo "$?"
+echo $?
+echo "'$?'"
+echo '"$?"'
+echo $"?"
+
+output:
+$?
+0(exit code)
+0(exit code)
+'0'(exit code)
+"$?"
+?
