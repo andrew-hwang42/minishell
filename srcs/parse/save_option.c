@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 03:27:33 by ahwang            #+#    #+#             */
-/*   Updated: 2025/09/28 03:27:56 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/09/29 17:18:38 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	**save_option(char **option, int cnt_option)
 	int		i;
 	int		j;
 
-	res = ft_calloc(sizeof(char *), cnt_option);
+	res = ft_calloc(sizeof(char *), cnt_option + 1);
 	if (!res)
 		return (NULL);
 	i = 0;

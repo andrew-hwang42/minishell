@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:43:45 by ahwang            #+#    #+#             */
-/*   Updated: 2025/09/27 06:12:12 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/09/30 01:59:05 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ char	**remove_from_env(char **env, char *to_remove);
 int		set_env(char ***env);
 
 /* detect_signal.c */
+void	handle_sigint(int pid);
+void	handle_sigquit(int pid);
 void	signal_handler(int signo);
 void	detect_signal(void);
 
