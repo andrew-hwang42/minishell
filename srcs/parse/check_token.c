@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 04:16:09 by ahwang            #+#    #+#             */
-/*   Updated: 2025/09/27 16:00:16 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/09/30 03:34:29 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,40 +16,34 @@ int	check_token_pipe(char next)
 {
 	if (next != '\0')
 	{
-		if (next != ' ' && !ft_isalnum(next))
-		{
-			if (next == '|')
-				return (token_err_msg('|', '|'), 0);
+		if (next == '|')
+			return (token_err_msg('|', '|'), 0);
+		if (next == '>' || next == '<')
 			return (token_err_msg('|', 0), 0);
-		}
 	}
 	return (1);
 }
 
 int	check_token_redir(char *line, int i)
 {
-	char	next;
-	char	next_next;
-
 	if (line[i + 1] != '\0')
 	{
-		next = line[i + 1];
-		if (next != line[i] && next != ' ' && !ft_isalnum(next))
+		if (line[i] == line[i + 1])
 		{
-			if (next == '|')
-				return (token_err_msg('|', 0), 0);
-			return (token_err_msg(line[i], 0), 0);
+			if (line[i + 2] != '\0')
+			{
+				if (line[i + 2] == '|')
+					return (token_err_msg('|', 0), 0);
+				if (line[i + 2] == '>' || line[i + 2] == '<')
+					return (token_err_msg(line[i], line[i]), 0);
+			}
 		}
-	}
-	if (line[i + 1] != '\0' && line[i + 2] != '\0')
-	{
-		next_next = line[i + 2];
-		if (next == line[i]
-			&& next_next != ' ' && !ft_isalnum(next_next))
+		else
 		{
-			if (next_next == '|')
+			if (line[i + 1] == '<' || line[i + 1] == '>')
+				return (token_err_msg(line[i], 0), 0);
+			else if (line[i + 1] == '|')
 				return (token_err_msg('|', 0), 0);
-			return (token_err_msg(line[i], line[i]), 0);
 		}
 	}
 	return (1);
