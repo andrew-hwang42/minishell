@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   check_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 05:28:44 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/02 10:00:29 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/02 21:01:49 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,38 +43,36 @@ void	err_msg_heredoc(char *delim)
 	ft_putstr_fd("')\n", STDERR);
 }
 
-int	write_heredoc(int *fd, char *file_name, char *delim)
+int	write_heredoc(char *file_name, char *delim)
 {
 	char	*line;
+	int		fd;
 
-	*fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0664);
-	if (*fd == -1)
+	fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	if (fd == -1)
 		return (err_msg("file open error"), 0);
-	while (1)
+	g_exit = 0;
+	while (g_exit != 130)
 	{
 		signal(SIGINT, handle_heredoc);
 		signal(SIGQUIT, SIG_IGN);
 		line = readline("> ");
 		if (!line)
-			return (err_msg_heredoc(delim), 1);
-		if (g_exit == 130)
-		{
-			close(*fd);
-			return (free(line), 0);
-		}
+			return (err_msg_heredoc(delim), close(fd), 1);
 		if (is_same_str(line, delim))
-			return (free(line), 1);
-		write(*fd, line, ft_strlen(line));
-		write(*fd, "\n", 1);
+			return (free(line), close(fd), 1);
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
 		free(line);
 	}
-	return (1);
+	if (g_exit == 130)
+		return (close(fd), 0);
+	return (close(fd), 1);
 }
 
 int	check_heredoc(t_cmd **cmd)
 {
 	char	*file_name;
-	int		fd;
 	int		i;
 	int		j;
 
@@ -87,10 +85,8 @@ int	check_heredoc(t_cmd **cmd)
 			if (cmd[i]->redir[j]->redir_type == HEREDOC)
 			{
 				file_name = generate_file_name(i, j);
-				if (!write_heredoc(&fd, file_name, cmd[i]->redir[j]->file))
+				if (!write_heredoc(file_name, cmd[i]->redir[j]->file))
 					return (free(file_name), 0);
-				if (fd >= 0)
-					close(fd);
 				free(cmd[i]->redir[j]->file);
 				cmd[i]->redir[j]->file = file_name;
 			}
