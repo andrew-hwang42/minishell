@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 03:50:18 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/02 07:24:12 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/02 09:28:57 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,31 +26,107 @@ int	is_builtin(char *cmd)
 }
 
 /*
-여러 개의 자식 프로세스(cmd 배열 안에 있음)를 순서대로 기다린 다음(exit status 확인),
-마지막 프로세스의 종료 코드를 전역 변수 g_exit_code에 저장
+부모 프로세스가 여러 개의 자식 프로세스(cmd 배열 안에 있음)를 순서대로 대기,
+마지막 프로세스의 종료 코드를 전역 변수 g_exit에 저장
 */
 void	wait_for_child_process(t_cmd **cmd)
 {
 	int	i;
+	int	last;
 	int	status;
 
+	last = 0;
+	while (cmd[last])
+		last++;
+	last--;
 	i = -1;
-	while (cmd[++i])
+	/* 마지막 전까지: 자식이 있는 엔트리만 대기 */
+	while (++i < last)
 	{
-		if (cmd[i + 1])
+		if (cmd[i]->pid > 0) //자식 PID를 보유한 부모: 자식 대기
 			waitpid(cmd[i]->pid, NULL, 0);
-		else
+	}
+	/* 마지막 */
+	if (cmd[last]->pid > 0) //자식 PID를 보유한 부모: 자식 대기 -> 마지막으로 실행된 프로세스가 자식: non built-in, cmd 여러개 pipe로 연결
+	{
+		waitpid(cmd[last]->pid, &status, 0);
+		if (WIFEXITED(status))
 		{
-			waitpid(cmd[i]->pid, &status, 0);
-			if (WIFEXITED(status))
-			{
-				g_exit = WEXITSTATUS(status);
-				if (!g_exit)
-					g_exit = cmd[i]->exit;
-				return ;
-			}
+			g_exit = WEXITSTATUS(status);
+			if (!g_exit)
+				g_exit = cmd[last]->exit;
+		}
+		else if (WIFSIGNALED(status))
+			g_exit = 128 + WTERMSIG(status);
+	}
+	else //자식이 없는 부모-> 마지막으로 실행된 프로세스가 부모: built-in
+		g_exit = cmd[last]->exit;
+}
+
+void	redir_err_msg(char *file_name, char *err_msg)
+{
+	ft_putstr_fd("minishell: ", STDERR);
+	ft_putstr_fd(file_name, STDERR);
+	ft_putstr_fd(": ", STDERR);
+	ft_putstr_fd(err_msg, STDERR);
+	ft_putstr_fd("\n", STDERR);
+}
+
+int	redir_open_file(int *cmd_exit, t_redir *redir, int (*fd)[2])
+{
+	if (redir->redir_type == IN || redir->redir_type == HEREDOC)
+	{
+		(*fd)[FD_IN] = open(redir->file, O_RDONLY);
+		if ((*fd)[FD_IN] == -1)
+		{
+			redir_err_msg(redir->file, "No such file or directory");
+			return (0);
+		}
+		
+	}
+	else
+	{
+		if (redir->redir_type == OUT)
+			(*fd)[FD_OUT]
+				= open(redir->file, O_CREAT | O_WRONLY | O_TRUNC, 0664);
+		else if (redir->redir_type == APPEND)
+			(*fd)[FD_OUT]
+				= open(redir->file, O_CREAT | O_WRONLY | O_APPEND, 0664);
+		if ((*fd)[FD_OUT] == -1)
+		{
+			redir_err_msg(redir->file, "Permission denied");
+			return (0);
 		}
 	}
+	return (1);
+}
+
+int	set_fd_redir(t_cmd *cmd)
+{
+	int	fd[2];
+	int	i;
+
+	i = -1;
+	while (cmd->redir[++i])
+	{
+		if (!redir_open_file(&cmd->exit, cmd->redir[i], &fd))
+			return (0);
+		if (cmd->redir[i]->redir_type == IN
+			|| cmd->redir[i]->redir_type == HEREDOC)
+		{
+			dup2(fd[FD_IN], STDIN);
+			close(fd[FD_IN]);
+			if (cmd->redir[i]->redir_type == HEREDOC)
+				unlink(cmd->redir[i]->file);
+		}
+		else if (cmd->redir[i]->redir_type == OUT
+			|| cmd->redir[i]->redir_type == APPEND)
+		{
+			dup2(fd[FD_OUT], STDOUT);
+			close(fd[FD_OUT]);
+		}
+	}
+	return (1);
 }
 
 /*
@@ -92,14 +168,25 @@ int	execute(t_cmd **cmd, char **env)
 			cmd[i]->pid = fork();
 		else
 			cmd[i]->pid = PARENTS;
-		if (cmd[i]->pid > -1)
+		if (cmd[i]->pid == CHILD || cmd[i]->pid == PARENTS)
 		{
 			fd[STDIN] = dup(STDIN);
 			fd[STDOUT] = dup(STDOUT);
 			handle_pipe(cmd, &my_pipe, i);
-			// if (!set_fd_redir())
-			// 	return (0);
+			if (!set_fd_redir(cmd[i]))
+			{
+				dup2(fd[STDIN], STDIN);
+				dup2(fd[STDOUT], STDOUT);
+				close(fd[STDIN]);
+				close(fd[STDOUT]);
+				if (cmd[i]->pid == CHILD)
+					exit(1);
+				g_exit = 1;
+				return (0);
+			}
 			// run_command();
+			if (cmd[i]->pid == CHILD)
+				exit(cmd[i]->exit);
 			dup2(fd[STDIN], STDIN);
 			dup2(fd[STDOUT], STDOUT);
 			close(fd[STDIN]);

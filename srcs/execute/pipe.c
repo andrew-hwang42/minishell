@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 04:17:57 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/02 05:28:58 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/02 08:37:29 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ int	create_pipe(t_cmd **cmd, int (**my_pipe)[2])
 	while (cmd[i + 1])
 	{
 		*my_pipe = ft_realloc(*my_pipe,
-				sizeof(int *) * i, sizeof(int *) * (i + 1));
-		if (*my_pipe)
+				sizeof(**my_pipe) * i, sizeof(**my_pipe) * (i + 1));
+		if (!*my_pipe)
 			return (err_msg("malloc error"), 0);
-		pipe((*my_pipe)[i]);
+		if (pipe((*my_pipe)[i]) == -1)
+			return (err_msg("pipe error"), 0);
 		i++;
 	}
 	return (1);
