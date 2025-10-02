@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/28 03:27:33 by ahwang            #+#    #+#             */
-/*   Updated: 2025/09/29 17:18:38 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/02 06:50:46 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	is_redir(char *str)
 {
-	if ((!ft_strncmp("<", str, ft_strlen("<")) && ft_strlen(str) == 1)
-		|| (!ft_strncmp("<<", str, ft_strlen("<<")) && ft_strlen(str) == 2)
-		|| (!ft_strncmp(">", str, ft_strlen(">")) && ft_strlen(str) == 1)
-		|| (!ft_strncmp(">>", str, ft_strlen(">>")) && ft_strlen(str) == 2))
+	if (is_same_str("<", str)
+		|| is_same_str("<<", str)
+		|| is_same_str(">", str)
+		|| is_same_str(">>", str))
 		return (1);
 	return (0);
 }

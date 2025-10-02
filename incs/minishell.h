@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:43:45 by ahwang            #+#    #+#             */
-/*   Updated: 2025/09/30 01:59:05 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/02 06:47:40 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	detect_signal(void);
 
 /* utils.c */
 void	err_msg(char *msg);
+int		is_same_str(char *s1, char *s2);
 void	free_2d_arr(char **arr);
 void	free_cmd(t_cmd **cmd);
 void	exit_program(t_cmd **cmd, char **env, char *msg);

@@ -6,7 +6,7 @@
 #    By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/24 15:50:04 by yhwang            #+#    #+#              #
-#    Updated: 2025/09/28 03:28:11 by ahwang           ###   ########.fr        #
+#    Updated: 2025/10/02 05:29:38 by ahwang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,10 @@ FILES =	main \
 		$(PARSE)save_option \
 		$(PARSE)save_redir \
 		$(PARSE)parse_utils \
+		$(EXECUTE)execute_main \
+		${EXECUTE}heredoc \
+		${EXECUTE}pipe \
+		
 
 INCS_DIR = ./incs
 

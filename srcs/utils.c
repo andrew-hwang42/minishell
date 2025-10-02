@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:57:55 by ahwang            #+#    #+#             */
-/*   Updated: 2025/09/28 01:16:03 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/02 06:47:28 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@ void	err_msg(char *msg)
 	ft_putstr_fd(BLACK, STDERR);
 	ft_putstr_fd(msg, STDERR);
 	ft_putstr_fd("\n", STDERR);
+}
+
+int	is_same_str(char *s1, char *s2)
+{
+	if (!ft_strncmp(s1, s2, ft_strlen(s1))
+		&& ft_strlen(s1) == ft_strlen(s2))
+		return (1);
+	return (0);
 }
 
 void	free_2d_arr(char **arr)
