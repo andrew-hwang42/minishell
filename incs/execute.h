@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:47:40 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/02 21:24:33 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/03 03:55:33 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,21 @@ void	close_pipe(t_cmd **cmd, int (**my_pipe)[2]);
 void	handle_pipe(t_cmd **cmd, int (**my_pipe)[2], int i);
 
 /* set_fd_redir.c */
-void	redir_err_msg(char *file_name, char *err_msg);
 int		redir_open_file(t_redir *redir, int (*fd)[2]);
 int		set_fd_redir(t_cmd *cmd);
 
+/* run_command.c */
+void	check_pid(t_cmd **cmd, char **env, int i);
+void	run_command(t_cmd **cmd, char **env, int i);
+
+/* run_non_builtin.c */
+char	*check_valid_path_with_cmd(char **path, char *cmd);
+char	*find_valid_path_with_cmd(t_cmd *cmd, char **env);
+void	run_valid_path_with_cmd(t_cmd *cmd, char **env, char *path_with_cmd);
+void	run_non_builtin(t_cmd *cmd, char **env);
+
 /* execute_utils.c */
+void	minishell_err_msg(char *file_name, char *err_msg);
 int		is_builtin(char *cmd);
 
 #endif

@@ -6,20 +6,11 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 21:00:27 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/02 21:16:02 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/03 03:26:33 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/minishell.h"
-
-void	redir_err_msg(char *file_name, char *err_msg)
-{
-	ft_putstr_fd("minishell: ", STDERR);
-	ft_putstr_fd(file_name, STDERR);
-	ft_putstr_fd(": ", STDERR);
-	ft_putstr_fd(err_msg, STDERR);
-	ft_putstr_fd("\n", STDERR);
-}
 
 int	redir_open_file(t_redir *redir, int (*fd)[2])
 {
@@ -27,9 +18,10 @@ int	redir_open_file(t_redir *redir, int (*fd)[2])
 	{
 		(*fd)[FD_IN] = open(redir->file, O_RDONLY);
 		if ((*fd)[FD_IN] == -1)
-			return (redir_err_msg(redir->file, "No such file or directory"), 0);
+			return (minishell_err_msg(redir->file,
+					"No such file or directory"), 0);
 	}
-	else
+	else if (redir->redir_type == OUT || redir->redir_type == APPEND)
 	{
 		if (redir->redir_type == OUT)
 			(*fd)[FD_OUT]
@@ -38,7 +30,8 @@ int	redir_open_file(t_redir *redir, int (*fd)[2])
 			(*fd)[FD_OUT]
 				= open(redir->file, O_CREAT | O_WRONLY | O_APPEND, 0664);
 		if ((*fd)[FD_OUT] == -1)
-			return (redir_err_msg(redir->file, "Permission denied"), 0);
+			return (minishell_err_msg(redir->file,
+					"Permission denied"), 0);
 	}
 	return (1);
 }

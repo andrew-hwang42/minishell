@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 03:50:18 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/02 21:25:31 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/03 03:51:53 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,26 @@ void	wait_for_child_process(t_cmd **cmd)
 	int	status;
 
 	last = 0;
-	while (cmd[last + 1])
+	while (cmd[last])
 		last++;
 	i = -1;
-	while (++i < last)
+	while (++i < last - 1)
 		if (cmd[i]->pid > 0)
 			waitpid(cmd[i]->pid, NULL, 0);
-	if (cmd[last]->pid > 0)
+	if (cmd[last - 1]->pid > 0)
 	{
-		waitpid(cmd[last]->pid, &status, 0);
+		waitpid(cmd[last - 1]->pid, &status, 0);
 		if (WIFEXITED(status))
 		{
 			g_exit = WEXITSTATUS(status);
 			if (!g_exit)
-				g_exit = cmd[last]->exit;
+				g_exit = cmd[last - 1]->exit;
 		}
 		else if (WIFSIGNALED(status))
 			g_exit = 128 + WTERMSIG(status);
 	}
 	else
-		g_exit = cmd[last]->exit;
+		g_exit = cmd[last - 1]->exit;
 }
 
 void	check_fork_set_fd(t_cmd **cmd, int i, int (*fd)[2])
@@ -75,12 +75,13 @@ int	execute(t_cmd **cmd, char **env, int (**my_pipe)[2], int (*fd)[2])
 			handle_pipe(cmd, my_pipe, i);
 			if (!set_fd_redir(cmd[i]))
 			{
-				revert_close_fd(fd);
 				if (cmd[i]->pid == CHILD)
 					exit(1);
+				if (cmd[i]->pid == PARENTS || cmd[i]->pid > 0)
+					revert_close_fd(fd);
 				return (g_exit = 1, 0);
 			}
-			(void)env;// run_command();
+			run_command(cmd, env, i);
 			if (cmd[i]->pid == CHILD)
 				exit(cmd[i]->exit);
 			revert_close_fd(fd);
@@ -93,6 +94,7 @@ int	execute_main(t_cmd **cmd, char **env)
 {
 	int	(*my_pipe)[2];
 	int	fd[2];
+	int	len;
 
 	my_pipe = NULL;
 	if (!check_heredoc(cmd))
@@ -103,6 +105,10 @@ int	execute_main(t_cmd **cmd, char **env)
 		return (0);
 	close_pipe(cmd, &my_pipe);
 	free(*my_pipe);
-	wait_for_child_process(cmd);
+	len = 0;
+	while (cmd[len])
+		len++;
+	if (len)
+		wait_for_child_process(cmd);
 	return (1);
 }

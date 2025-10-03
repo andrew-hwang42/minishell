@@ -6,7 +6,7 @@
 #    By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/24 15:50:04 by yhwang            #+#    #+#              #
-#    Updated: 2025/10/02 21:07:29 by ahwang           ###   ########.fr        #
+#    Updated: 2025/10/03 03:54:49 by ahwang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,8 @@ FILES =	main \
 		${EXECUTE}check_heredoc \
 		${EXECUTE}handle_pipe \
 		${EXECUTE}set_fd_redir \
+		${EXECUTE}run_command \
+		${EXECUTE}run_non_builtin \
 		${EXECUTE}execute_utils
 
 INCS_DIR = ./incs

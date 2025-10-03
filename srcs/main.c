@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:49:36 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/02 21:27:49 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/03 03:30:11 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	minishell_main(t_cmd **cmd, char **env)
 		cmd = parse(cmd, env, line);
 		if (!cmd)
 			continue ;
-		print_cmd(cmd); //erase later
+		// print_cmd(cmd); //erase later
 		if (!execute_main(cmd, env))
 			return (exit_program(cmd, env, NULL), 0);
 		free_cmd(cmd);
