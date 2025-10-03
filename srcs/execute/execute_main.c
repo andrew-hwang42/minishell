@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 03:50:18 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/03 08:23:52 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/03 12:49:05 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	revert_close_fd(int (*fd)[2])
 	close((*fd)[STDOUT]);
 }
 
-int	execute(t_cmd **cmd, char **env, int (**my_pipe)[2], int (*fd)[2])
+int	execute(t_cmd **cmd, char ***env, int (**my_pipe)[2], int (*fd)[2])
 {
 	int	i;
 
@@ -90,7 +90,7 @@ int	execute(t_cmd **cmd, char **env, int (**my_pipe)[2], int (*fd)[2])
 	return (1);
 }
 
-int	execute_main(t_cmd **cmd, char **env)
+int	execute_main(t_cmd **cmd, char ***env)
 {
 	int	(*my_pipe)[2];
 	int	fd[2];

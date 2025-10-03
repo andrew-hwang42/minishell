@@ -6,13 +6,13 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 07:05:21 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/03 09:19:06 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/03 14:25:45 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/minishell.h"
 
-void	run_echo(t_cmd *cmd)
+int	run_echo(t_cmd *cmd)
 {
 	int	i;
 	int	tmp;
@@ -36,71 +36,66 @@ void	run_echo(t_cmd *cmd)
 	printf("%s", cmd->option[i]);
 	if (!option_n)
 		printf("\n");
-	cmd->exit = 0;
+	return (g_exit = 0, cmd->exit = 0, 0);
 }
 
-void	run_pwd(t_cmd *cmd)
+int	run_pwd(t_cmd *cmd)
 {
 	char	buf[1024];
 
+	if (cmd->option[0])
+		return (g_exit = 2, cmd->exit = 2,
+			minishell_err_msg("pwd", "invalid option"), 2);
 	getcwd(buf, sizeof(buf));
 	if (errno == ERANGE)
-	{
-		minishell_err_msg("pwd: cannot access directory",
-			"No such file or directory");
-		cmd->exit = 1;
-	}
-	else
-		printf("%s\n", buf);
-	cmd->exit = 0;
+		return (g_exit = 1, cmd->exit = 1,
+			minishell_err_msg("pwd: cannot access directory",
+				"No such file or directory"), 1);
+	return (printf("%s\n", buf), g_exit = 0, cmd->exit = 0, 0);
 }
 
-void	run_unset(t_cmd *cmd, char **env)
+int	run_unset(t_cmd *cmd, char ***env)
 {
 	int	i;
 	int	j;
-	int	k;
 
-	if (cmd->option[0])
+	if (!cmd->option[0])
+		return (g_exit = 0, cmd->exit = 0, 0);
+	if (cmd->option[0][0] == '-')
+		return (g_exit = 2, cmd->exit = 2,
+			minishell_err_msg("unset", "invalid option"), 2);
+	i = -1;
+	while (cmd->option[++i])
 	{
-		i = -1;
-		while (cmd->option[++i])
+		j = -1;
+		while ((*env)[++j])
 		{
-			j = -1;
-			while (env[++j])
+			if (!ft_strncmp((*env)[j], cmd->option[i],
+				ft_strlen(cmd->option[i]))
+				&& (*env)[j][ft_strlen(cmd->option[i])] == '=')
 			{
-				if (!ft_strncmp(env[j], cmd->option[i],
-						ft_strlen(cmd->option[i]))
-					&& env[j][ft_strlen(cmd->option[i])] == '=')
-				{
-					free(env[j]);
-					k = j - 1;
-					while (env[++k])
-						env[k] = env[k + 1];
-				}
+				*env = remove_from_env(*env, cmd->option[i]);
+				j--;
 			}
 		}
 	}
-	cmd->exit = 0;
+	return (g_exit = 0, cmd->exit = 0, 0);
 }
 
-void	run_env(t_cmd *cmd, char **env)
+int	run_env(t_cmd *cmd, char **env)
 {
 	int	i;
 
 	if (cmd->option[0])
-	{
-		minishell_err_msg("env", "unrecognized option");
-		cmd->exit = 125;
-		return ;
-	}
+		return (g_exit = 125, cmd->exit = 125,
+			minishell_err_msg("env", "invalid option"), 125);
 	i = -1;
 	while (env[++i])
 	{
 		if (find_char_pos(env[i], '=', 0) != -1)
 			printf("%s\n", env[i]);
 	}
-	cmd->exit = 0;
+	return (g_exit = 0, cmd->exit = 0, 0);
 }
 
 int	run_exit(t_cmd *cmd)

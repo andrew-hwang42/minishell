@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:43:45 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/02 06:47:40 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/03 12:46:36 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ extern int	g_exit;
 
 /* main.c */
 void	show_header(void);
-int		minishell_main(t_cmd **cmd, char **env);
+int		minishell_main(t_cmd **cmd, char ***env);
 int		main(int argc, char **argv, char **env);
 
 /* set_env.c */

@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:49:36 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/03 09:24:30 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/03 12:48:02 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	show_header(void)
 {
 	printf("%s\n", CYAN);
 	printf("╔════╦════╦══╦════════╦══╦═══════╦══╗  ╔══╦═══════╦══╗  ╔══╗   \n");
-	printf("║🫧  ║🐡  ║🫧║ 🐠     ║  ║🪼     ║🫧║  ║  ║     🐋║🐳║  ║🐬║   \n");
+	printf("║🫧  ║🐡  ║🫧║ 🐠     ║  ║🐡     ║🫧║  ║  ║     🐋║🐳║  ║🐬║   \n");
 	printf("║ 🐬 ║    ║  ║  ╔══╗  ║🦑║   ════╣🦀╚══╝  ║   ════╣  ║  ║  ║🫧 \n");
 	printf("║  ║ ║ ║  ║  ║  ║  ║  ║  ║🫧🐡   ║      🐟║     🫧║🐠║  ║  ║🫧 \n");
 	printf("║  ║ ║ ║  ║  ║  ║  ║🐚║  ╠════   ║  ╔══╗  ║   ════╣  ╚══╣  ╚══╗\n");
@@ -28,7 +28,7 @@ void	show_header(void)
 	printf("%s\n", BLACK);
 }
 
-int	minishell_main(t_cmd **cmd, char **env)
+int	minishell_main(t_cmd **cmd, char ***env)
 {
 	char	*line;
 
@@ -37,22 +37,22 @@ int	minishell_main(t_cmd **cmd, char **env)
 		detect_signal();
 		cmd = ft_calloc(sizeof(t_cmd *), 2);
 		if (!cmd)
-			return (exit_program(NULL, env, "malloc error"), 0);
+			return (exit_program(NULL, *env, "malloc error"), 0);
 		line = readline("\001\x1b[36m\002minishell$\001\x1b[0m\002 ");
 		if (!line)
 		{
 			printf("exit\n");
-			return (exit_program(cmd, env, NULL), 0);
+			return (exit_program(cmd, *env, NULL), 0);
 		}
 		add_history(line);
-		cmd = parse(cmd, env, line);
+		cmd = parse(cmd, *env, line);
 		if (!cmd)
 			continue ;
 		if (!execute_main(cmd, env))
-			return (exit_program(cmd, env, NULL), 0);
+			return (exit_program(cmd, *env, NULL), 0);
 		free_cmd(cmd);
 	}
-	return (free_2d_arr(env), 1);
+	return (free_2d_arr(*env), 1);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -69,7 +69,7 @@ int	main(int argc, char **argv, char **env)
 		return (1);
 	show_header();
 	cmd = NULL;
-	if (!minishell_main(cmd, env))
+	if (!minishell_main(cmd, &env))
 		return (1);
 	return (0);
 }

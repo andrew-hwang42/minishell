@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:47:40 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/03 09:19:16 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/03 14:27:49 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,16 @@
 
 # include "./minishell.h"
 
+# define I		0
+# define J		1
+# define K		2
+
 /* execute_main.c */
 void		wait_for_child_process(t_cmd **cmd);
 void		check_fork_set_fd(t_cmd **cmd, int i, int (*fd)[2]);
 void		revert_close_fd(int (*fd)[2]);
-int			execute(t_cmd **cmd, char **env, int (**my_pipe)[2], int (*fd)[2]);
-int			execute_main(t_cmd **cmd, char **env);
+int			execute(t_cmd **cmd, char ***env, int (**my_pipe)[2], int (*fd)[2]);
+int			execute_main(t_cmd **cmd, char ***env);
 
 /* check_heredoc.c */
 void		handle_heredoc(int signo);
@@ -40,14 +44,24 @@ int			set_fd_redir(t_cmd *cmd);
 
 /* run_command.c */
 void		check_pid(t_cmd **cmd, char **env, int i, int exit_code);
-void		run_command(t_cmd **cmd, char **env, int (*fd)[2], int i);
+void		run_command(t_cmd **cmd, char ***env, int (*fd)[2], int i);
 
 /* run_builtin.c */
-void		run_echo(t_cmd *cmd);
-void		run_pwd(t_cmd *cmd);
-void		run_unset(t_cmd *cmd, char **env);
-void		run_env(t_cmd *cmd, char **env);
+int			run_echo(t_cmd *cmd);
+int			run_pwd(t_cmd *cmd);
+int			run_unset(t_cmd *cmd, char ***env);
+int			run_env(t_cmd *cmd, char **env);
 int			run_exit(t_cmd *cmd);
+
+/* run_builtin_cd.c */
+void		update_old_new_pwd(char ***env, char *new_pwd);
+int			change_directory(t_cmd *cmd, char ***env, char *path);
+int			run_cd(t_cmd *cmd, char ***env);
+
+/* run_builtin_export.c */
+void		export_without_option(char **env);
+void		export_with_option(char ***env, char *option);
+int			run_export(t_cmd *cmd, char ***env);
 
 /* run_non_builtin.c */
 char		*check_valid_path_with_cmd(char **path, char *cmd);
