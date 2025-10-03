@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 03:50:18 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/03 06:44:33 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/03 08:23:52 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	execute(t_cmd **cmd, char **env, int (**my_pipe)[2], int (*fd)[2])
 					revert_close_fd(fd);
 				return (g_exit = 1, 0);
 			}
-			run_command(cmd, env, i);
+			run_command(cmd, env, fd, i);
 			if (cmd[i]->pid == CHILD)
 				exit(cmd[i]->exit);
 			revert_close_fd(fd);

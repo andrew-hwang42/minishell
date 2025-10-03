@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:49:36 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/03 03:30:11 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/03 09:24:30 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,43 +26,6 @@ void	show_header(void)
 	printf("╚══╩═══╩══╩══╩══╝  ╚══╩══╩═══════╩══╝  ╚══╩═══════╩═════╩═════╝\n");
 	printf("                                                               \n");
 	printf("%s\n", BLACK);
-}
-
-/* erase later */
-void	print_cmd(t_cmd **cmd)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (cmd[++i])
-	{
-		printf("cmd[%d]->cmd: %s\n", i, cmd[i]->cmd);
-		j = -1;
-		while (cmd[i]->option[++j])
-			printf("cmd[%d]->option[%d]: %s\n", i, j, cmd[i]->option[j]);
-		j = -1;
-		while (cmd[i]->redir[++j])
-		{
-			printf("cmd[%d]->redir[%d]->redir_type: ", i, j);
-			if (cmd[i]->redir[j]->redir_type == HEREDOC)
-				printf("<<\n");
-			else if (cmd[i]->redir[j]->redir_type == IN)
-				printf("<\n");
-			else if (cmd[i]->redir[j]->redir_type == OUT)
-				printf(">\n");
-			else if (cmd[i]->redir[j]->redir_type == APPEND)
-				printf(">>\n");
-			else if (cmd[i]->redir[j]->redir_type == NONE)
-				printf("NONE\n");
-			else
-				printf("something is wrong\n");
-			printf("cmd[%d]->redir[%d]->file: %s\n", i, j, cmd[i]->redir[j]->file);
-		}
-		printf("cmd[%d]->exit: %d\n", i, cmd[i]->exit);
-		printf("cmd[%d]->pid: %d\n", i, cmd[i]->pid);
-		printf("------------------------------------\n");
-	}
 }
 
 int	minishell_main(t_cmd **cmd, char **env)
@@ -85,7 +48,6 @@ int	minishell_main(t_cmd **cmd, char **env)
 		cmd = parse(cmd, env, line);
 		if (!cmd)
 			continue ;
-		// print_cmd(cmd); //erase later
 		if (!execute_main(cmd, env))
 			return (exit_program(cmd, env, NULL), 0);
 		free_cmd(cmd);

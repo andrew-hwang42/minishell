@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:47:35 by ahwang            #+#    #+#             */
-/*   Updated: 2025/09/30 03:15:01 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/03 09:28:05 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int		check_token_else(char curr, char next);
 int		check_token(char *line);
 
 /* check_token_pos.c */
+int		check_pos_front(char *line, int i, char token);
+int		check_pos_back(char *line, int *i, char token);
 int		check_pos_err(char *line, int *i);
 int		check_token_pos(char *line);
 
