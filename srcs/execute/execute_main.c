@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 03:50:18 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/03 03:51:53 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/03 06:44:33 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	wait_for_child_process(t_cmd **cmd)
 	while (++i < last - 1)
 		if (cmd[i]->pid > 0)
 			waitpid(cmd[i]->pid, NULL, 0);
-	if (cmd[last - 1]->pid > 0)
+	if (cmd[last - 1]->pid != PARENTS && cmd[last - 1]->pid > 0)
 	{
 		waitpid(cmd[last - 1]->pid, &status, 0);
 		if (WIFEXITED(status))
@@ -102,7 +102,7 @@ int	execute_main(t_cmd **cmd, char **env)
 	if (!create_pipe(cmd, &my_pipe))
 		return (0);
 	if (!execute(cmd, env, &my_pipe, &fd))
-		return (0);
+		return (close_pipe(cmd, &my_pipe), free(*my_pipe), 0);
 	close_pipe(cmd, &my_pipe);
 	free(*my_pipe);
 	len = 0;

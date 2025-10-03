@@ -6,7 +6,7 @@
 #    By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/24 15:50:04 by yhwang            #+#    #+#              #
-#    Updated: 2025/10/03 03:54:49 by ahwang           ###   ########.fr        #
+#    Updated: 2025/10/03 07:05:56 by ahwang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ FILES =	main \
 		${EXECUTE}handle_pipe \
 		${EXECUTE}set_fd_redir \
 		${EXECUTE}run_command \
+		${EXECUTE}run_builtin \
 		${EXECUTE}run_non_builtin \
 		${EXECUTE}execute_utils
 
