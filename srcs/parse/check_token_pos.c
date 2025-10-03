@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 05:23:58 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/03 09:28:09 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/03 22:57:38 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	check_pos_back(char *line, int *i, char token)
 			return (token_err_msg(token, token), 0);
 		while (line[*i] == ' ')
 			(*i)++;
+		if (!line[*i])
+			return (token_err_msg(token, token), 0);
 		if (line[*i] == '|' || line[*i] == '<' || line[*i] == '>')
 			return (token_err_msg(token, token), 0);
 	}
@@ -57,6 +59,8 @@ int	check_pos_back(char *line, int *i, char token)
 			return (token_err_msg(token, 0), 0);
 		while (line[*i] == ' ')
 			(*i)++;
+		if (!line[*i])
+			return (token_err_msg(token, 0), 0);
 		if (line[*i] == '|' || line[*i] == '<' || line[*i] == '>')
 			return (token_err_msg(token, 0), 0);
 	}
