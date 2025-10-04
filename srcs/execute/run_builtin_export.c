@@ -78,7 +78,7 @@ int	run_export(t_cmd *cmd, char ***env)
 		while (cmd->option[i][++j] && cmd->option[i][j] != '=')
 		{
 			if (!(ft_isalnum(cmd->option[i][j])
-				|| cmd->option[i][j] == '-' || cmd->option[i][j] == '_'))
+				|| cmd->option[i][j] == '_'))
 				return (g_exit = 1, cmd->exit = 1,
 					minishell_err_msg("export", "not a valid identifier"), 1);
 		}
