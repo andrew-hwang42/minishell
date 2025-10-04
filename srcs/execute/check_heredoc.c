@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 05:28:44 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/02 21:01:49 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/04 02:57:02 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	write_heredoc(char *file_name, char *delim)
 		free(line);
 	}
 	if (g_exit == 130)
-		return (close(fd), 0);
+		return (close(fd), 1);
 	return (close(fd), 1);
 }
 

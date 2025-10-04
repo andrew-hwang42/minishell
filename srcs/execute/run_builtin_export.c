@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 10:04:30 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/03 14:28:09 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/10/04 04:16:19 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ int	run_export(t_cmd *cmd, char ***env)
 			return (g_exit = 1, cmd->exit = 1,
 				minishell_err_msg("export", "not a valid identifier"), 1);
 		j = 0;
-		while (cmd->option[i][++j])
+		while (cmd->option[i][++j] && cmd->option[i][j] != '=')
 		{
-			if (!(ft_isalnum(cmd->option[i][j]) || cmd->option[i][j] == '='
+			if (!(ft_isalnum(cmd->option[i][j])
 				|| cmd->option[i][j] == '-' || cmd->option[i][j] == '_'))
 				return (g_exit = 1, cmd->exit = 1,
 					minishell_err_msg("export", "not a valid identifier"), 1);
