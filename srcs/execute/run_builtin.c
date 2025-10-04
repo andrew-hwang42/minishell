@@ -103,7 +103,7 @@ int	run_exit(t_cmd *cmd)
 	if (cmd->pid == PARENTS)
 		ft_putstr_fd("exit\n", STDERR);
 	if (!cmd->option[0])
-		return (g_exit = 0, cmd->exit = 2, 0);
+		return (g_exit = 0, cmd->exit = 0, 0);
 	if (!(is_numeric_str(cmd->option[0])
 			&& LONG_MIN < ft_atolonglong(cmd->option[0])
 			&& ft_atolonglong(cmd->option[0]) < LONG_MAX))
