@@ -6,7 +6,7 @@
 #    By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/24 15:50:04 by yhwang            #+#    #+#              #
-#    Updated: 2025/10/03 10:06:04 by ahwang           ###   ########.fr        #
+#    Updated: 2025/11/26 18:35:27 by ahwang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ FILES =	main \
 		${EXECUTE}set_fd_redir \
 		${EXECUTE}run_command \
 		${EXECUTE}run_builtin \
+		${EXECUTE}run_builtin_echo \
 		${EXECUTE}run_builtin_cd \
 		${EXECUTE}run_builtin_export \
 		${EXECUTE}run_non_builtin \

@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:47:40 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/03 14:27:49 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/11/26 18:36:15 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,14 @@ void		check_pid(t_cmd **cmd, char **env, int i, int exit_code);
 void		run_command(t_cmd **cmd, char ***env, int (*fd)[2], int i);
 
 /* run_builtin.c */
-int			run_echo(t_cmd *cmd);
 int			run_pwd(t_cmd *cmd);
 int			run_unset(t_cmd *cmd, char ***env);
 int			run_env(t_cmd *cmd, char **env);
 int			run_exit(t_cmd *cmd);
+
+/* run_builtin_echo */
+int			check_echo_option(t_cmd *cmd);
+int			run_echo(t_cmd *cmd);
 
 /* run_builtin_cd.c */
 void		update_old_new_pwd(char ***env, char *new_pwd);

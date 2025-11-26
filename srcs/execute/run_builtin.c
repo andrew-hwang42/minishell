@@ -6,38 +6,11 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 07:05:21 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/03 14:25:45 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/11/26 18:35:49 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/minishell.h"
-
-int	run_echo(t_cmd *cmd)
-{
-	int	i;
-	int	tmp;
-	int	option_n;
-
-	option_n = 0;
-	if (!ft_strncmp(cmd->option[0], "-n", ft_strlen("-n")))
-	{
-		i = 0;
-		tmp = 0;
-		while (cmd->option[0][++i] == 'n')
-			tmp++;
-		if ((int)(ft_strlen(cmd->option[0])) - 1 == tmp)
-			option_n++;
-	}
-	i = 0;
-	if (option_n)
-		i++;
-	while (cmd->option[i + 1])
-		printf("%s ", cmd->option[i++]);
-	printf("%s", cmd->option[i]);
-	if (!option_n)
-		printf("\n");
-	return (g_exit = 0, cmd->exit = 0, 0);
-}
 
 int	run_pwd(t_cmd *cmd)
 {
