@@ -6,24 +6,37 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 07:05:21 by ahwang            #+#    #+#             */
-/*   Updated: 2025/11/26 18:35:49 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/11/26 19:06:11 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/minishell.h"
 
-int	run_pwd(t_cmd *cmd)
+int	run_pwd(t_cmd *cmd, char ***env)
 {
 	char	buf[1024];
+	int		i;
 
 	if (cmd->option[0])
 		return (g_exit = 2, cmd->exit = 2,
 			minishell_err_msg("pwd", "invalid option"), 2);
+	buf[0] = '\0';
 	getcwd(buf, sizeof(buf));
 	if (errno == ERANGE)
 		return (g_exit = 1, cmd->exit = 1,
 			minishell_err_msg("pwd: cannot access directory",
 				"No such file or directory"), 1);
+	if (!ft_strlen(buf))
+	{
+		i = -1;
+		while ((*env)[++i])
+		{
+			if (!ft_strncmp((*env)[i], "PWD", 3) && (*env)[i][3] == '=')
+				return (printf("%s\n", (*env)[i] + 4),
+					g_exit = 0, cmd->exit = 0, 0);
+		}
+		buf[0] = '\0';
+	}
 	return (printf("%s\n", buf), g_exit = 0, cmd->exit = 0, 0);
 }
 

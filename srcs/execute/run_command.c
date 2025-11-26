@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 03:51:34 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/03 14:13:25 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/11/26 18:50:58 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	run_command(t_cmd **cmd, char ***env, int (*fd)[2], int i)
 	else if (is_same_str(cmd[i]->cmd, "cd"))
 		exit_code = run_cd(cmd[i], env);
 	else if (is_same_str(cmd[i]->cmd, "pwd"))
-		exit_code = run_pwd(cmd[i]);
+		exit_code = run_pwd(cmd[i], env);
 	else if (is_same_str(cmd[i]->cmd, "export"))
 		exit_code = run_export(cmd[i], env);
 	else if (is_same_str(cmd[i]->cmd, "unset"))
