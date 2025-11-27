@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 18:35:40 by ahwang            #+#    #+#             */
-/*   Updated: 2025/11/26 18:37:04 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/11/27 18:04:57 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,18 @@ int	run_echo(t_cmd *cmd)
 	if (flag_print == n_option)
 		return (g_exit = 0, cmd->exit = 0, 0);
 	i = 0;
-	if (flag_print)
+	if (flag_print != -1)
+	{
 		i = flag_print;
+		while (cmd->option[i + 1])
+			printf("%s ", cmd->option[i++]);
+		if (cmd->option[i])
+			printf("%s", cmd->option[i]);
+		return (g_exit = 0, cmd->exit = 0, 0);
+	}
 	while (cmd->option[i + 1])
 		printf("%s ", cmd->option[i++]);
-	if (cmd->option[i])
-		printf("%s", cmd->option[i]);
-	if (!flag_print)
-		printf("\n");
+	printf("%s", cmd->option[i]);
+	printf("\n");
 	return (g_exit = 0, cmd->exit = 0, 0);
 }
