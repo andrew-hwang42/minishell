@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:44:27 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/03 02:25:29 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/12/02 08:42:01 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@
 # define STDIN			0
 # define STDOUT			1
 # define STDERR			2
+
+# define DOUBLE_QUOTE		11
+# define SINGLE_QUOTE		12
+# define SPACE_IN_QUOTE		13
+# define REDIR_IN_QUOTE_IN	14
+# define REDIR_IN_QUOTE_OUT	15
+# define PIPE_IN_QUOTE		16
 
 # define FD_IN			0
 # define FD_OUT			1

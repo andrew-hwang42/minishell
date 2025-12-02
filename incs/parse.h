@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 00:47:35 by ahwang            #+#    #+#             */
-/*   Updated: 2025/10/03 09:28:05 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/12/02 09:03:34 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ char	*make_space_near_redir(char *line);
 /* remove_dollar_quote.c */
 int		dollar_is_removable(char *line, int i);
 void	remove_dollar(char *line);
+int		check_echo_replace_token(char *line, int quote_start, int quote_end);
+int		check_echo_replace_quote(char *line, int i);
 void	remove_quote(char *line);
 
 /* replace_env_key_to_val.c */
@@ -57,6 +59,7 @@ char	*replace_env_key_to_val(char **env, char *line, int *i);
 
 /* save_data.c */
 t_cmd	**realloc_cmd(t_cmd **cmd, int i);
+void	revert_echo_option(char *option_i);
 t_cmd	**save_data(t_cmd **cmd, char *cmd_splitted_pipe, int i);
 
 /* save_option.c */

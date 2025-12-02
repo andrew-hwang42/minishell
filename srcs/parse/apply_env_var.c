@@ -6,7 +6,7 @@
 /*   By: ahwang <ahwang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 15:00:57 by ahwang            #+#    #+#             */
-/*   Updated: 2025/09/27 22:08:19 by ahwang           ###   ########.fr       */
+/*   Updated: 2025/12/02 06:27:15 by ahwang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,18 +63,18 @@ char	*make_space_near_redir(char *line)
 	if (!line)
 		return (NULL);
 	i = 0;
-	while (line != NULL && line[i] != '\0')
+	while (line[i])
 	{
-		if (line[i] == '<' && line[i + 1] != '<')
+		if (line[i] && line[i] == '<' && line[i + 1] != '<')
 			line = replace_key_to_value(&line,
 					ft_strdup("<"), ft_strdup(" < "), &i);
-		else if (line[i] == '<' && line[i + 1] == '<')
+		else if (line[i] && line[i] == '<' && line[i + 1] == '<')
 			line = replace_key_to_value(&line,
 					ft_strdup("<<"), ft_strdup(" << "), &i);
-		else if (line[i] == '>' && line[i + 1] != '>')
+		else if (line[i] && line[i] == '>' && line[i + 1] != '>')
 			line = replace_key_to_value(&line,
 					ft_strdup(">"), ft_strdup(" > "), &i);
-		else if (line[i] == '>' && line[i + 1] == '>')
+		else if (line[i] && line[i] == '>' && line[i + 1] == '>')
 			line = replace_key_to_value(&line,
 					ft_strdup(">>"), ft_strdup(" >> "), &i);
 		i++;
